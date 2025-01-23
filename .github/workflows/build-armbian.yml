@@ -14,7 +14,7 @@ on:
       set_release:
         description: "Select OS Release."
         required: false
-        default: "jammy"
+        default: ${{ inputs.set_release || 'jammy' }}
         type: choice
         options:
           - jammy
@@ -239,6 +239,7 @@ on:
           - yourname
 
 env:
+  DEBIAN_FRONTEND: noninteractive
   TZ: America/New_York
   ROOTFS_SCRIPT: compile-kernel/tools/script/armbian_rootfs.sh
 
@@ -308,6 +309,7 @@ jobs:
         if: ${{ steps.down.outputs.status }} == 'success' && !cancelled()
         run: |
           # Compile method and parameter description: https://docs.armbian.com/Developer-Guide_Build-Options
+          export DEBIAN_FRONTEND=noninteractive
           cd build/
               ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=odroidn2 BRANCH=current BUILD_MINIMAL=no \
                            BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no \
