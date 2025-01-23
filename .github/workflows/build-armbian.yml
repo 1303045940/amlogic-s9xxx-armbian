@@ -14,7 +14,7 @@ on:
       set_release:
         description: "Select OS Release."
         required: false
-        default: ${{ inputs.set_release || 'jammy' }}
+        default: "jammy"
         type: choice
         options:
           - jammy
